@@ -4,9 +4,11 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import MainPage from '../src/pages/index.js';
 import React from 'react';
 import prettier from 'prettier';
+import { transform } from 'lightningcss';
 
 const pages = [{ route: '/index.html', component: <MainPage /> }];
 const distDir = path.resolve(import.meta.dirname, '../dist');
+const stylesDir = path.resolve(import.meta.dirname, '../src/styles');
 const publicDir = path.resolve(import.meta.dirname, '../src/public');
 
 async function initDistDir() {
@@ -28,6 +30,21 @@ async function generatePage({ route, component }: { route: string; component: Re
   console.log(`Generated ${outPath}`);
 }
 
+async function processCSS() {
+  const cssFilePath = path.join(stylesDir, 'style.css');
+  const cssBuffer = await fs.promises.readFile(cssFilePath);
+
+  const { code } = transform({
+    filename: 'style.css',
+    code: cssBuffer,
+    minify: false,
+    sourceMap: false,
+  });
+
+  await fs.promises.writeFile(path.join(distDir, 'style.css'), code);
+  console.log('Processed CSS with LightningCSS');
+}
+
 async function copyAssets() {
   await fs.promises.cp(publicDir, distDir, { recursive: true });
 }
@@ -35,6 +52,7 @@ async function copyAssets() {
 try {
   await initDistDir();
   await Promise.all(pages.map(generatePage));
+  await processCSS();
   await copyAssets();
   console.log('✅ Static site generated!');
 } catch (err) {
