@@ -1,0 +1,22 @@
+{
+  "scripts": {
+    "build": "tsx scripts/build.tsx",
+    "start": "serve ./dist"
+  },
+  "devDependencies": {
+    "@tsconfig/strictest": "^2.0.5",
+    "@types/node": "^22.13.10",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "prettier": "^3.5.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "serve": "^14.2.4",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=14.14.0"
+  }
+}

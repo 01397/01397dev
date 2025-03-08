@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    /* Type Checking */
+    // all strict options are enabled by @tsconfig/strictest
+    /* Modules */
+    "module": "Node18",
+    "moduleResolution": "node16",
+    /* Emit */
+    "noEmit": true,
+    /* Interop Constraints */
+    "erasableSyntaxOnly": true,
+    /* Language and Environment */
+    "jsx": "react",
+    "target": "ES2022",
+  },
+  "include": [
+    "scripts/**/*.tsx",
+    "src/pages/**/*.tsx"
+  ],
+  "extends": "@tsconfig/strictest/tsconfig.json"
+}
