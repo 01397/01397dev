@@ -1,20 +1,21 @@
 html {
   height: 100%;
 }
+
 body {
-  margin: 0;
-  background-image: linear-gradient(0deg, hsl(345, 100%, 70%) 0%, hsl(265, 100%, 70%) 100%);
-  height: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-family: 'Figtree', sans-serif;
+  justify-content: center;
+  height: 100%;
+  margin: 0;
+  font-family: Figtree, sans-serif;
+  background-image: linear-gradient(0deg, hsl(345deg 100% 70%) 0%, hsl(265deg 100% 70%) 100%);
 }
 
 #main {
   display: flex;
-  align-items: center;
   gap: 24px;
+  align-items: center;
   color: white;
 }
 

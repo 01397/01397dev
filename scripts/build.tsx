@@ -1,22 +1,26 @@
-import fs from 'fs';
-import path from 'path';
-import { renderToStaticMarkup } from 'react-dom/server';
-import MainPage from '../src/pages/index.js';
-import React from 'react';
-import prettier from 'prettier';
 import { transform } from 'lightningcss';
+import fs from 'node:fs';
+import path from 'node:path';
+import prettier from 'prettier';
+import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 
-const pages = [{ route: '/index.html', component: <MainPage /> }];
-const distDir = path.resolve(import.meta.dirname, '../dist');
-const stylesDir = path.resolve(import.meta.dirname, '../src/styles');
-const publicDir = path.resolve(import.meta.dirname, '../src/public');
+import MainPage from '../src/pages/index.js';
 
-async function initDistDir() {
-  await fs.promises.rm(distDir, { recursive: true, force: true });
-  await fs.promises.mkdir(distDir, { recursive: true });
+const config = {
+  directories: {
+    distribution: path.resolve(import.meta.dirname, '../dist'),
+    public: path.resolve(import.meta.dirname, '../src/public'),
+    styles: path.resolve(import.meta.dirname, '../src/styles'),
+  },
+  pages: [{ component: <MainPage />, route: '/index.html' }],
 }
 
-async function generatePage({ route, component }: { route: string; component: React.ReactNode }) {
+async function copyAssets() {
+  await fs.promises.cp(config.directories.public, config.directories.distribution, { recursive: true });
+}
+
+async function generatePage({ component, route }: { component: React.ReactNode; route: string; }) {
   const outPath = route.endsWith('/') ? route + 'index.html' : route;
   console.log(`Generating ${outPath}...`);
 
@@ -25,36 +29,37 @@ async function generatePage({ route, component }: { route: string; component: Re
   // Format HTML content
   const formattedCode = await prettier.format(htmlContent, { parser: 'html' });
   // Write to file
-  await fs.promises.writeFile(path.join(distDir, outPath), formattedCode);
+  await fs.promises.writeFile(path.join(config.directories.distribution, outPath), formattedCode);
 
   console.log(`Generated ${outPath}`);
 }
 
+async function initDistributionDirectory() {
+  await fs.promises.rm(config.directories.distribution, { force: true, recursive: true });
+  await fs.promises.mkdir(config.directories.distribution, { recursive: true });
+}
+
 async function processCSS() {
-  const cssFilePath = path.join(stylesDir, 'style.css');
+  const cssFilePath = path.join(config.directories.styles, 'style.css');
   const cssBuffer = await fs.promises.readFile(cssFilePath);
 
   const { code } = transform({
-    filename: 'style.css',
     code: cssBuffer,
+    filename: 'style.css',
     minify: false,
     sourceMap: false,
   });
 
-  await fs.promises.writeFile(path.join(distDir, 'style.css'), code);
+  await fs.promises.writeFile(path.join(config.directories.distribution, 'style.css'), code);
   console.log('Processed CSS with LightningCSS');
 }
 
-async function copyAssets() {
-  await fs.promises.cp(publicDir, distDir, { recursive: true });
-}
-
 try {
-  await initDistDir();
-  await Promise.all(pages.map(generatePage));
+  await initDistributionDirectory();
+  await Promise.all(config.pages.map((page) => generatePage(page)));
   await processCSS();
   await copyAssets();
   console.log('✅ Static site generated!');
-} catch (err) {
-  console.error('❌ Error generating static site:', err);
+} catch (error) {
+  console.error('❌ Error generating static site:', error);
 }

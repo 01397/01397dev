@@ -3,20 +3,20 @@ import React from 'react';
 const Page = () => (
   <html lang="ja">
     <head>
-      <meta charSet="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta charSet="utf-8" />
+      <meta content="width=device-width, initial-scale=1.0" name="viewport" />
       <title>01397.dev</title>
-      <meta property="og:title" content="01397.dev" />
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://01397.dev" />
-      <meta property="og:image" content="https://01397.dev/og.png" />
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <meta content="01397.dev" property="og:title" />
+      <meta content="website" property="og:type" />
+      <meta content="https://01397.dev" property="og:url" />
+      <meta content="https://01397.dev/og.png" property="og:image" />
+      <link href="https://fonts.googleapis.com" rel="preconnect" />
+      <link crossOrigin="" href="https://fonts.gstatic.com" rel="preconnect" />
       <link
         href="https://fonts.googleapis.com/css2?family=Figtree:wght@600&display=swap&text=01397.dev"
         rel="stylesheet"
       />
-      <link rel="stylesheet" href="./style.css" />
+      <link href="./style.css" rel="stylesheet" />
     </head>
     <body>
       <div id="main">

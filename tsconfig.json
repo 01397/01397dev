@@ -15,7 +15,9 @@
   },
   "include": [
     "scripts/**/*.tsx",
-    "src/pages/**/*.tsx"
+    "src/pages/**/*.tsx",
+    "eslint.config.ts",
+    "stylelint.config.mjs"
   ],
   "extends": "@tsconfig/strictest/tsconfig.json"
 }
