@@ -14,7 +14,8 @@
     "target": "ES2022",
   },
   "include": [
-    "scripts/**/*.tsx",
+    "scripts/**/*.ts",
+    "builder/**/*.ts",
     "src/pages/**/*.tsx",
     "eslint.config.ts",
     "stylelint.config.mjs"

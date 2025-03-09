@@ -16,7 +16,7 @@ const Page = () => (
         href="https://fonts.googleapis.com/css2?family=Figtree:wght@600&display=swap&text=01397.dev"
         rel="stylesheet"
       />
-      <link href="./style.css" rel="stylesheet" />
+      <link href="./styles/style.css" rel="stylesheet" />
     </head>
     <body>
       <div id="main">

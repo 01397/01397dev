@@ -1,10 +1,17 @@
 {
   "private": true,
   "scripts": {
-    "build": "tsx scripts/build.tsx",
+    "build": "tsx scripts/build.ts",
+    "build:watch": "tsx scripts/watch.ts",
+    "dev": "npm run build:watch & npm run start",
     "start": "serve ./dist",
-    "check": "eslint . && stylelint \"**/*.css\"",
-    "fix": "eslint --fix . && stylelint \"**/*.css\" --fix"
+    "check": "run-s check:* --continue-on-error",
+    "check:eslint": "eslint .",
+    "check:stylelint": "stylelint \"**/*.css\"",
+    "check:ts": "tsc --noEmit",
+    "fix": "run-s fix:* --continue-on-error",
+    "fix:eslint": "eslint --fix .",
+    "fix:stylelint": "stylelint \"**/*.css\" --fix"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
@@ -13,6 +20,7 @@
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@typescript-eslint/parser": "^8.26.0",
+    "chokidar": "^4.0.3",
     "eslint": "^9.22.0",
     "eslint-plugin-perfectionist": "^4.10.0",
     "eslint-plugin-react": "^7.37.4",
@@ -20,6 +28,7 @@
     "globals": "^16.0.0",
     "jiti": "^2.4.2",
     "lightningcss": "^1.29.2",
+    "npm-run-all2": "^7.0.2",
     "prettier": "^3.5.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
